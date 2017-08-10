@@ -10,16 +10,12 @@ void setup() {
 
   const char* SSID = "ESP8266-Dragon";
   const char* password = "DragonFruit"; 
-
-  Serial.println("Setup done");
 }
 
 void loop() {
-  Serial.println("scan start");
 
   // WiFi.scanNetworks will return the number of networks found
   int n = WiFi.scanNetworks();
-  Serial.println("scan done");
   if (n == 0)
     Serial.println("no networks found");
   else
@@ -33,21 +29,16 @@ void loop() {
     for (int i = 0; i < n; ++i)
     {
       // Print SSID and RSSI for each network found
-      Serial.print(i + 1);
-      Serial.print(": ");
-      Serial.print(WiFi.SSID(i));
-      Serial.print(" (");
-      Serial.print(WiFi.RSSI(i));
-      Serial.print(")");
-      Serial.print(" "+ WiFi.BSSIDstr(i));
-      Serial.println("");
+      Serial.println(WiFi.SSID(i));
+      Serial.println(WiFi.RSSI(i));
+      Serial.println(WiFi.BSSIDstr(i));
       delay(10);
     }
   }
   Serial.println("");
 
   // Wait a bit before scanning again
-  delay(1000);
+  delay(1000*60);
 }
 
 
