@@ -24,19 +24,25 @@ void loop() {
     for (int i = 0; i < n; ++i)
     {
       Serial.print(WiFi.SSID(i));
-      Serial.print(",");
+      if (i != n-1){
+        Serial.print(",");
+      }   
     }
     Serial.println("");
     for (int i = 0; i < n; ++i)
     {
       Serial.print(WiFi.RSSI(i));
-     Serial.print(",");
+      if (i != n-1){
+        Serial.print(",");
+      } 
     }
     Serial.println("");
     for (int i = 0; i < n; ++i)
     {
       Serial.print(WiFi.BSSIDstr(i));
-     Serial.print(",");
+      if (i != n-1){
+        Serial.print(",");
+      } 
     }
      Serial.print("");
     delay(10);
