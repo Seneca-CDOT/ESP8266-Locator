@@ -6,10 +6,7 @@ void setup() {
   // Set WiFi to station mode and disconnect from an AP if it was previously connected
   WiFi.mode(WIFI_STA);
   WiFi.disconnect();
-  delay(100);
-
-  const char* SSID = "ESP8266-Dragon";
-  const char* password = "DragonFruit"; 
+  delay(100); 
 }
 
 void loop() {
