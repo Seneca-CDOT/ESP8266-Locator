@@ -58,16 +58,7 @@ void loop() {
   getData();
 
   // Handle REST calls
-  WiFiClient client = server.available();
-  if (!client) {
-    return;
-  }
-  while(!client.available()){
-    delay(1);
-  }
-  rest.handle(client);
-
-  delay(60*10000);
+  delay(60*1000);
 
 }
 
@@ -135,7 +126,14 @@ void getData(){
     // Print the IP address
     Serial.println(WiFi.localIP());
 
-    delay(60*10000);
+    WiFiClient client = server.available();
+    if (!client) {
+      return;
+    }
+    while(!client.available()){
+      delay(1);
+    }
+    rest.handle(client);
   }
 }
 
