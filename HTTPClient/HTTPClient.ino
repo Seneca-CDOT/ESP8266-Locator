@@ -23,8 +23,6 @@ const char* password = "DragonFruit";
 WiFiServer server(LISTEN_PORT);
 
 // Variables to be exposed to the API
-int temperature;
-int humidity;
 int timestamp;
 String mac;
 String essid;
