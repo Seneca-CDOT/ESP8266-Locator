@@ -6,12 +6,10 @@
 */
 
 // Import required libraries
-#include <ESP8266WiFi.h>
-#include <aREST.h>
-#include <HttpClient.h>
 
-// Create aREST instance
-aREST rest = aREST();
+
+#include <ESP8266HTTPClient.h>
+
 
 // WiFi parameters
 const char* ssid = "ESP8266-Dragon";
@@ -21,7 +19,7 @@ const char* password = "DragonFruit";
 #define LISTEN_PORT           80
 
 // Create an instance of the server
-WiFiServer server(LISTEN_PORT);
+
 
 // Variables to be exposed to the API
 int timestamp;
@@ -101,17 +99,7 @@ void getData(){
           bssid = bssid + ",";
         }   
       }
-    rest.variable("timestamp",&timestamp);
-    rest.variable("ESSID",&essid);
-    rest.variable("Signal",&strength);
-    rest.variable("BSSID",&bssid);
-    rest.variable("MAC",&mac);
-    
-    // Function to be exposed
-  
-    // Give name & ID to the device (ID should be 6 characters long)
-    rest.set_id("1");
-    rest.set_name("esp8266");
+
 
     delay(5000);
 
@@ -140,14 +128,13 @@ void getData(){
       delay(1);
       Serial.println("stuck");
     }
-    rest.handle(client); //sends stuff to the server?
     Serial.println("sending?");
   }
 }
 void wifi_request(String end_pt, String msg) {
     HTTPClient http;
-    if (end_pt == HTTP_DEV_WIFI_SCAN_ENDPT)
-        http.setTimeout(30000);
+    //if (end_pt == HTTP_DEV_WIFI_SCAN_ENDPT)
+    //    http.setTimeout(30000);
     http.begin(end_pt);
 
     http.addHeader("Content-Type", DUMMY_HEADER_CONTENT_TYPE);
