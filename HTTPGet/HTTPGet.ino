@@ -1,53 +1,26 @@
-#include <ESP8266WiFi.h>
-#include <ESP8266HTTPClient.h>
 
-const char *SERVER_WIFI_SSID = "ESP8266-Dragon";
-const char *SERVER_WIFI_PASS = "DragonFruit";
-
-
-
-void setupWiFi()
-{
-   Serial.print("Connecting to WiFi ");
-   WiFi.begin(SERVER_WIFI_SSID,SERVER_WIFI_PASS);
-   while(WiFi.status() != WL_CONNECTED)
-   {
-     delay(500);
-     Serial.print(".");
-   }
-
-   Serial.println("Connected");
-}
+#include <HttpClient.h>
 
 void setup() {
   Serial.begin(115200);
-  setupWiFi();
 
+  while (!Serial); // wait for a serial connection
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  HTTPClient http;
+  // Initialize the client library
+  HttpClient client;
 
-  //Let is try a GET request first 
-  http.begin("http://192.168.0.104:8080/webappfordemo/Version");
+  // Make a HTTP request:
+  client.get("http://www.arduino.cc/asciilogo.txt");
 
-  int httpCode = http.GET();
-  if(httpCode == HTTP_CODE_OK)
-  {
-      Serial.print("HTTP response code ");
-      Serial.println(httpCode);
-      String response = http.getString();
-      Serial.println(response);
-    
+  // if there are incoming bytes available
+  // from the server, read them and print them:
+  while (client.available()) {
+    char c = client.read();
+    Serial.print(c);
   }
-  else
-  {
-    Serial.println("Error in HTTP request");
-  }
+  Serial.flush();
 
-  http.end();
-
-  delay(3000);
-
+  delay(5000);
 }

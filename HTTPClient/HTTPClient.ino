@@ -111,7 +111,6 @@ void getData(){
     // Give name & ID to the device (ID should be 6 characters long)
     rest.set_id("1");
     rest.set_name("esp8266");
-    Serial.println("rest set");
 
     delay(5000);
 
@@ -133,13 +132,42 @@ void getData(){
 
     WiFiClient client = server.available();
     if (!client) { 
+      Serial.println("help");
       return;
     }
     while(!client.available()){ //while there is no data from the client
       delay(1);
+      Serial.println("stuck");
     }
     rest.handle(client); //sends stuff to the server?
     Serial.println("sending?");
   }
+}
+void wifi_request(String end_pt, String msg) {
+    HTTPClient http;
+    if (end_pt == HTTP_DEV_WIFI_SCAN_ENDPT)
+        http.setTimeout(30000);
+    http.begin(end_pt);
+
+    http.addHeader("Content-Type", DUMMY_HEADER_CONTENT_TYPE);
+    //add headers as needed
+
+    int httpCode = http.POST(msg);
+    //DEBUG_PRINTF("HTTP CODE WAS: %d\n", httpCode);
+
+
+    if (httpCode == HTTP_CODE_OK){
+        DEBUG_PRINTF("Update message to server was successful\n");
+        String payload = http.getString();
+        DEBUG_PRINTF("The end_pt was: %s and the payload was: %s END\n", end_pt.c_str(), payload.c_str());
+
+    }   
+    else if (httpCode > -1){
+        DEBUG_PRINTF("Server communication error, code: %d\n", httpCode);
+        String payload=http.getString();
+
+    }   
+    http.end();
+
 }
 
