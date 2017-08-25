@@ -8,6 +8,7 @@
 // Import required libraries
 #include <ESP8266WiFi.h>
 #include <aREST.h>
+#include <HttpClient.h>
 
 // Create aREST instance
 aREST rest = aREST();
