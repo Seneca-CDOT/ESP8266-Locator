@@ -67,6 +67,7 @@ void getData(){
   WiFi.mode(WIFI_STA);
   WiFi.disconnect();
   delay(100);
+  Serial.println("disconnect");
   //scans for networks
   int n = WiFi.scanNetworks(); //n = number of networks found when scanning
   if (n == 0)
@@ -103,12 +104,16 @@ void getData(){
     rest.variable("ESSID",&essid);
     rest.variable("Signal",&strength);
     rest.variable("BSSID",&bssid);
+    rest.variable("MAC",&mac);
     
     // Function to be exposed
   
     // Give name & ID to the device (ID should be 6 characters long)
-    rest.set_id(mac);
+    rest.set_id("1");
     rest.set_name("esp8266");
+    Serial.println("rest set");
+
+    delay(5000);
 
     //Connects  to WiFi
     WiFi.begin(ssid, password);
@@ -127,13 +132,14 @@ void getData(){
     Serial.println(WiFi.localIP());
 
     WiFiClient client = server.available();
-    if (!client) {
+    if (!client) { 
       return;
     }
-    while(!client.available()){
+    while(!client.available()){ //while there is no data from the client
       delay(1);
     }
-    rest.handle(client);
+    rest.handle(client); //sends stuff to the server?
+    Serial.println("sending?");
   }
 }
 
