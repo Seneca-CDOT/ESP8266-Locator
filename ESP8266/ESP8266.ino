@@ -7,14 +7,13 @@
 
 // Import required libraries
 #include <ESP8266WiFi.h>
-#include <aREST.h>
+#include <ESP8266HTTPClient.h>
 
-// Create aREST instance
-aREST rest = aREST();
+
 
 // WiFi parameters
-const char* ssid = "SenecaGuest";
-const char* password = "";
+const char* ssid = "ESP8266-Dragon";
+const char* password = "DragonFruit";
 
 // The port to listen for incoming TCP connections
 #define LISTEN_PORT           80
@@ -28,12 +27,10 @@ void setup(void)
 {
   // Start Serial
   Serial.begin(115200);
-  
-  rest.set_id("1");
-  rest.set_name("esp8266");
+
 
   // Connect to WiFi
-  WiFi.begin(ssid);
+  WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
@@ -52,29 +49,43 @@ void setup(void)
 void loop() {
   
 
-  int temperature;
-  int humidity;
-
-
-  // Init variables and expose them to REST API
-  temperature = 24;
-  humidity = 40;
-  rest.variable("temperature",&temperature);
-  rest.variable("humidity",&humidity);
-  
   
 
-  // Handle REST calls
-  WiFiClient client = server.available();
-  if (!client) {
-    return;
-  }
-  while(!client.available()){
-    delay(1);
-  }
-  rest.handle(client);
+  wifi_request(String(WiFi.localIP()), "Hola me llamo Ethan");
+  Serial.print("sent post on ");
+  Serial.println(WiFi.localIP());
 
   delay(10000);
 
 }
+
+
+
+
+
+
+
+void wifi_request(String end_pt, String msg) {
+    HTTPClient http;
+    //if (end_pt == HTTP_DEV_WIFI_SCAN_ENDPT)
+    //   http.setTimeout(30000);
+    http.begin(end_pt);
+
+    http.addHeader("Content-Type", "yo dope");
+    //add headers as needed
+
+    int httpCode = http.POST(msg);
+    //DEBUG_PRINTF("HTTP CODE WAS: %d\n", httpCode);
+
+
+    if (httpCode == HTTP_CODE_OK){
+        String payload = http.getString();
+    }   
+    else if (httpCode > -1){
+        String payload=http.getString();
+    }   
+    http.end();
+
+}
+
 
