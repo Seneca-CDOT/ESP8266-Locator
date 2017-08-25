@@ -6,7 +6,7 @@
 */
 
 // Import required libraries
-
+#include <ESP8266WiFi.h>
 
 #include <ESP8266HTTPClient.h>
 
@@ -19,7 +19,7 @@ const char* password = "DragonFruit";
 #define LISTEN_PORT           80
 
 // Create an instance of the server
-
+WiFiServer server(LISTEN_PORT);
 
 // Variables to be exposed to the API
 int timestamp;
@@ -119,25 +119,18 @@ void getData(){
     // Print the IP address
     Serial.println(WiFi.localIP());
 
-    WiFiClient client = server.available();
-    if (!client) { 
-      Serial.println("help");
-      return;
-    }
-    while(!client.available()){ //while there is no data from the client
-      delay(1);
-      Serial.println("stuck");
-    }
-    Serial.println("sending?");
+    wifi_request(String(WiFi.localIP()), "Hello Word!", mac, timestamp);
   }
 }
-void wifi_request(String end_pt, String msg) {
+
+
+void wifi_request(String end_pt, String msg, String mac, int timeStamp) {
     HTTPClient http;
     //if (end_pt == HTTP_DEV_WIFI_SCAN_ENDPT)
-    //    http.setTimeout(30000);
+    //   http.setTimeout(30000);
     http.begin(end_pt);
 
-    http.addHeader("Content-Type", DUMMY_HEADER_CONTENT_TYPE);
+    http.addHeader("Content-Type", "MAC: %s\nTimeStamp: %f", mac, timeStamp);
     //add headers as needed
 
     int httpCode = http.POST(msg);
@@ -145,15 +138,10 @@ void wifi_request(String end_pt, String msg) {
 
 
     if (httpCode == HTTP_CODE_OK){
-        DEBUG_PRINTF("Update message to server was successful\n");
         String payload = http.getString();
-        DEBUG_PRINTF("The end_pt was: %s and the payload was: %s END\n", end_pt.c_str(), payload.c_str());
-
     }   
     else if (httpCode > -1){
-        DEBUG_PRINTF("Server communication error, code: %d\n", httpCode);
         String payload=http.getString();
-
     }   
     http.end();
 
