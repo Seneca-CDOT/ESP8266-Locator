@@ -10,10 +10,10 @@
 #include <ESP8266HTTPClient.h>
 
 
-
+#define END_POINT       "10.42.0.62:8090"
 // WiFi parameters
-const char* ssid = "ESP8266-Dragon";
-const char* password = "DragonFruit";
+const char* ssid = "peapod";
+const char* password = "geolocation";
 
 // The port to listen for incoming TCP connections
 #define LISTEN_PORT           80
@@ -51,9 +51,9 @@ void loop() {
 
   
 
-  wifi_request(String(WiFi.localIP()), "Hola me llamo Ethan");
+  wifi_request("http://206.47.241.9:8090/", "213291\n5C:CF:7F:1A:06:1F\nSenecaGuest,SenecaNET,DIRECT-eb-HP M102 LaserJet,hpsetup,Opilio,SenecaNET,SenecaGuest,twinster\n-64,-63,-78,-85,-73,-73,-73,-85\n0C:27:24:93:CA:D0,0C:27:24:93:CA:D3,92:CD:B6:07:E8:EB,00:14:38:DA:50:15,00:21:79:C8:52:50,0C:27:24:93:61:C3,0C:27:24:93:61:C0,00:21:79:C8:29:70");
   Serial.print("sent post on ");
-  Serial.println(WiFi.localIP());
+  Serial.println("10.42.0.62");
 
   delay(10000);
 
@@ -71,12 +71,14 @@ void wifi_request(String end_pt, String msg) {
     //   http.setTimeout(30000);
     http.begin(end_pt);
 
-    http.addHeader("Content-Type", "yo dope");
+    http.addHeader("Content-Type", "text/plain");
     //add headers as needed
 
     int httpCode = http.POST(msg);
     //DEBUG_PRINTF("HTTP CODE WAS: %d\n", httpCode);
 
+    Serial.print("HTTP Code = ");
+    Serial.println(httpCode);
 
     if (httpCode == HTTP_CODE_OK){
         String payload = http.getString();
