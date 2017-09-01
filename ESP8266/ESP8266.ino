@@ -10,7 +10,7 @@
 #include <ESP8266HTTPClient.h>
 
 
-#define END_POINT       "10.42.0.62:8090"
+#define END_POINT       "http://206.47.241.9:8090/"
 // WiFi parameters
 const char* ssid = "peapod";
 const char* password = "geolocation";
@@ -51,9 +51,9 @@ void loop() {
 
   
 
-  wifi_request("http://206.47.241.9:8090/", "213291\n5C:CF:7F:1A:06:1F\nSenecaGuest,SenecaNET,DIRECT-eb-HP M102 LaserJet,hpsetup,Opilio,SenecaNET,SenecaGuest,twinster\n-64,-63,-78,-85,-73,-73,-73,-85\n0C:27:24:93:CA:D0,0C:27:24:93:CA:D3,92:CD:B6:07:E8:EB,00:14:38:DA:50:15,00:21:79:C8:52:50,0C:27:24:93:61:C3,0C:27:24:93:61:C0,00:21:79:C8:29:70");
+  wifi_request(END_POINT, "213291\n5C:CF:7F:1A:06:1F\nSenecaGuest,SenecaNET,DIRECT-eb-HP M102 LaserJet,hpsetup,Opilio,SenecaNET,SenecaGuest,twinster\n-64,-63,-78,-85,-73,-73,-73,-85\n0C:27:24:93:CA:D0,0C:27:24:93:CA:D3,92:CD:B6:07:E8:EB,00:14:38:DA:50:15,00:21:79:C8:52:50,0C:27:24:93:61:C3,0C:27:24:93:61:C0,00:21:79:C8:29:70");
   Serial.print("sent post on ");
-  Serial.println("10.42.0.62");
+  Serial.println(END_POINT);
 
   delay(10000);
 

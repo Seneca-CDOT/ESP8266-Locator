@@ -21,6 +21,6 @@ void loop()
 void setupWiFi()
 {
   WiFi.mode(WIFI_AP);
-  WiFi.softAP("ESP8266-Dragon", "DragonFruit");
+  WiFi.softAP("ESP8266-Eagle", "DragonFruit");
 }
 
