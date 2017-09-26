@@ -12,64 +12,55 @@ void setup() {
 }
 
 void loop() {
+  int w = WiFi.scanNetworks(); //w=number of networks found
 
-  int n = WiFi.scanNetworks(); //n=number of networks found
+  int n = 0;
+
+  for (int i = 0; i < w; ++i) {
+    if ((WiFi.SSID(i).startsWith("X")) || (WiFi.SSID(i).startsWith("Y"))) {
+      ++n;
+    }
+  }
+
+
+  
   if (n == 0)
     Serial.println("no networks found");
-  else
-  {
-    Serial.print("Scan #");
-    Serial.print(ScanNum);
-    Serial.print("  ");
-    for (int i = 0; i < n; ++i)
-    {
-      if(WiFi.SSID(i) == "ESP8266-Dragon")
-      {
-        Serial.print("Dragon ");
-        Serial.print(WiFi.RSSI(i));
-        if(WiFi.RSSI(i) > -42)
-        {
-          Serial.println("In front of Can");
-        }
-        else
-        {
-          Serial.println("Not In front of Can");
-        }
-      }
-      if(WiFi.SSID(i) == "ESP8266-Eagle")
-      {
-        Serial.print("Eagle ");
-        Serial.print(WiFi.RSSI(i));
-        if(WiFi.RSSI(i) > -42)
-        {
-          Serial.println("In front of Can");
-        }
-        else
-        {
-          Serial.println("Not In front of Can");
-        }
-      }
-      if(WiFi.SSID(i) == "ESP8266-Ardvark")
-      {
-        Serial.print("Ardvark ");
-        Serial.print(WiFi.RSSI(i));
-        if(WiFi.RSSI(i) > -42)
-        {
-          Serial.println("In front of Can");
-        }
-        else
-        {
-          Serial.println("Not In front of Can");
+  else {
+    Serial.println(millis());
+    Serial.println(WiFi.macAddress());
+    for (int i = 0; i < n; ++i) {
+      if ((WiFi.SSID(i).startsWith("X")) || (WiFi.SSID(i).startsWith("Y"))) {
+        Serial.print(WiFi.SSID(i));
+        if (i != n-1) {
+          Serial.print(",");
         }
       }
     }
-  }
-  
+    Serial.println("");
+    for (int i = 0; i < n; ++i) {
+      if ((WiFi.SSID(i).startsWith("X")) || (WiFi.SSID(i).startsWith("Y"))) {
+      Serial.print(WiFi.RSSI(i));
+      if (i != n-1) {
+        Serial.print(",");
+      } 
+    }
+    }
+    Serial.println("");
+    for (int i = 0; i < n; ++i) {
+      if ((WiFi.SSID(i).startsWith("X")) || (WiFi.SSID(i).startsWith("Y"))) {
+      Serial.print(WiFi.BSSIDstr(i));
+      if (i != n-1) {
+        Serial.print(",");
+      } 
+    }
+    }
+     Serial.println("");
+
+
+      }
   ScanNum++;
 
   // Wait a bit before scanning again
-  delay(100);
+  delay(10000);
 }
-
-
-
