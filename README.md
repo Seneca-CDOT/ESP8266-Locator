@@ -5,4 +5,7 @@ The other files are for testing various different aspects of the Peapod device o
 
 
 /CanTest/CanTest.ino is the Arduino Huzzah sketch for the WiFi-Location testing.  
-/SoftAP/SoftAP.ino is the Arduino Huzzah sketch for WiFi access points.
+/SoftAP/SoftAPwBlink.ino is the Arduino Huzzah sketch for WiFi access points.
+
+To use Arduino sketches with the Adafruit Huzzah ESP8266 boards, please follow the instructions found at:  
+https://learn.adafruit.com/adafruit-huzzah-esp8266-breakout/using-arduino-ide
